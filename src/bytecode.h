@@ -12,6 +12,7 @@ enum class Opcode : uint8_t {
      STR, // Store to memory
      ADD, // Add
      SUB, // Subtract
+     JZ, // Jump if zero
      DOWN, // Power down
      };
      class Register {

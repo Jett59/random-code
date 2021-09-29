@@ -24,6 +24,11 @@ int main() {
   instructions.push_back(Instruction(Opcode::LDR, 0, 2, -4));
   instructions.push_back(Instruction(Opcode::STR, 2, 0, -8));
   instructions.push_back(Instruction(Opcode::LDR, 0, 5, -12));
+  instructions.push_back(Instruction(Opcode::JZ, 3, 0, 12));
+  instructions.push_back(Instruction(Opcode::ADD, 0, 0, 12));
+  instructions.push_back(Instruction(Opcode::MOV, 0, 3, 20));
+  instructions.push_back(Instruction(Opcode::SUB, 0, 0, 16));
+  instructions.push_back(Instruction(Opcode::SUB, 0, 0, 12));
   instructions.push_back(Instruction(Opcode::ADD, 0, 0, 4));
   instructions.push_back(Instruction(Opcode::DOWN, 0, 0, 0));
   instructions.push_back(Instruction(Opcode::SUB, 0, 0, 8));

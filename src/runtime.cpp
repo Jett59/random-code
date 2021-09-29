@@ -29,6 +29,7 @@ void machineDump() {
 }
  }
  void disassemble (Instruction& instruction) {
+   cout << registers[Register::IP] << ": ";
    switch (instruction.opcode) {
      case Opcode::MOV: {
        if (instruction.immediate) {
@@ -77,6 +78,10 @@ void machineDump() {
               cout << "sub r" << (unsigned)instruction.src << ", r" << (unsigned)instruction.dst << endl;
             }
             break;
+     }
+     case Opcode::JZ: {
+       cout << "jz r" << (unsigned)instruction.src << ", " << (int16_t)instruction.immediate  << "(r" << (unsigned)instruction.dst << ")" << endl;
+       break;
      }
      case Opcode::DOWN: {
        cout << "down" << endl;
@@ -135,6 +140,13 @@ void Instruction::operator() () {
               }
               case Opcode::SUB: {
                 registers[dst] -= notEqualOrElse<0, uint64_t>(immediate, registers[src]);
+                break;
+              }
+              case Opcode::JZ: {
+                if (registers[src] == 0) {
+                  registers[Register::IP] =
+                      signExtend(immediate) + registers[dst];
+                }
                 break;
               }
               case Opcode::DOWN: {
