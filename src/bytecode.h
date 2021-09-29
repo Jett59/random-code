@@ -5,7 +5,9 @@
 
 namespace code {
 enum class Opcode : uint8_t { 
-     MOV = 0
+     MOV = 0, // Move to register
+     SL = 1, // Shift left
+     SR = 2, // Shift right
      };
      class Register {
          private:

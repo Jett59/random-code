@@ -19,8 +19,8 @@ int main() {
   cout << "Using instruction length: " << sizeof(Instruction) * 8 << endl;
   runtime::machineDump();
   vector<Instruction> instructions;
-  instructions.push_back(Instruction(Opcode::MOV, 0, 1, 1024));
-  instructions.push_back(Instruction(Opcode::MOV, 1, 0, 0));
+  instructions.push_back(Instruction(Opcode::MOV, 0, 1, 1));
+  instructions.push_back(Instruction(Opcode::SL, 0, 1, 16));
   exec(instructions);
   runtime::machineDump();
   return 0;
