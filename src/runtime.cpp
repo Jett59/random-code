@@ -14,6 +14,10 @@ using std::vector;
 static uint64_t registers[32] = {0};
 static uint8_t memory[MEMORY_SIZE] = {0};
 
+uint64_t signExtend(uint16_t n) {
+  return (((uint64_t)(n & 0x8000) >> 15) * 0xFFFFFFFFFFFF0000) | n;
+}
+
 template<int n, class t> t notEqualOrElse (t prefered, t fallback) {
   return prefered == n ? fallback : prefered;
 }
@@ -51,12 +55,28 @@ void machineDump() {
             break;
      }
      case Opcode::LDR: {
-              cout << "ldr " << instruction.immediate << "(r" << (unsigned)instruction.src << "), r" << (unsigned)instruction.dst << endl;
+              cout << "ldr " << (int16_t)instruction.immediate << "(r" << (unsigned)instruction.src << "), r" << (unsigned)instruction.dst << endl;
             break;
      }
      case Opcode::STR: {
-       cout << "str r" << (unsigned)instruction.src << ", " << instruction.immediate  << "(r" << (unsigned)instruction.dst << ")" << endl;
+       cout << "str r" << (unsigned)instruction.src << ", " << (int16_t)instruction.immediate  << "(r" << (unsigned)instruction.dst << ")" << endl;
        break;
+     }
+     case Opcode::ADD: {
+       if (instruction.immediate) {
+              cout << "add " << instruction.immediate << ", r" << (unsigned)instruction.dst << endl;
+            }else {
+              cout << "add r" << (unsigned)instruction.src << ", r" << (unsigned)instruction.dst << endl;
+            }
+            break;
+     }
+     case Opcode::SUB: {
+       if (instruction.immediate) {
+              cout << "sub " << instruction.immediate << ", r" << (unsigned)instruction.dst << endl;
+            }else {
+              cout << "sub r" << (unsigned)instruction.src << ", r" << (unsigned)instruction.dst << endl;
+            }
+            break;
      }
      case Opcode::DOWN: {
        cout << "down" << endl;
@@ -94,17 +114,27 @@ void Instruction::operator() () {
             break;
     }
             case Opcode::LDR: {
-              uint64_t address = registers[src] + immediate;
-                if (address < MEMORY_SIZE - 8) {
+              uint64_t address = registers[src] + signExtend(immediate);
+              if (address < MEMORY_SIZE - 8) {
                 registers[dst] = *(uint64_t*)(memory + address);
+                }else {
+                  registers[dst] = ~0;
                 }
               break;
             }
               case Opcode::STR: {
-                uint64_t address = registers[dst] + immediate;
+                uint64_t address = registers[dst] + signExtend(immediate);
                 if (address < MEMORY_SIZE - 8) {
                 *(uint64_t*)(memory + address) = registers[src];
                 }
+                break;
+              }
+              case Opcode::ADD: {
+                registers[dst] += notEqualOrElse<0, uint64_t>(immediate, registers[src]);
+                break;
+              }
+              case Opcode::SUB: {
+                registers[dst] -= notEqualOrElse<0, uint64_t>(immediate, registers[src]);
                 break;
               }
               case Opcode::DOWN: {

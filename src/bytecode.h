@@ -10,7 +10,9 @@ enum class Opcode : uint8_t {
      SR, // Shift right
      LDR, // Load from memory
      STR, // Store to memory
-     DOWN, /*Power down*/
+     ADD, // Add
+     SUB, // Subtract
+     DOWN, // Power down
      };
      class Register {
          private:
