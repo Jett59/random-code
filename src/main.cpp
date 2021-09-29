@@ -17,7 +17,6 @@ using runtime::exec;
 int main() {
   Random::init();
   cout << "Using instruction length: " << sizeof(Instruction) * 8 << endl;
-  runtime::machineDump();
   vector<Instruction> instructions;
   instructions.push_back(Instruction(Opcode::MOV, 0, 1, 1));
   instructions.push_back(Instruction(Opcode::SL, 0, 1, 16));
