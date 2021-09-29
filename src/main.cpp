@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #include "bytecode.h"
 #include "random.h"
@@ -6,19 +7,21 @@
 
 using std::cout;
 using std::endl;
+using std::vector;
 
 using code::Instruction;
 using code::Opcode;
+
+using runtime::exec;
 
 int main() {
   Random::init();
   cout << "Using instruction length: " << sizeof(Instruction) * 8 << endl;
   runtime::machineDump();
-  Instruction instruction;
-  instruction.opcode = Opcode::MOV;
-  instruction.dst = 1;
-  instruction.immediate = 100;
-  instruction();
+  vector<Instruction> instructions;
+  instructions.push_back(Instruction(Opcode::MOV, 0, 1, 1024));
+  instructions.push_back(Instruction(Opcode::MOV, 1, 0, 0));
+  exec(instructions);
   runtime::machineDump();
   return 0;
 }

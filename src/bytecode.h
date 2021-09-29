@@ -20,6 +20,9 @@ class Instruction {
   uint8_t dst : 4;
   uint16_t immediate;
 
+  Instruction(Opcode opcode, uint8_t src, uint8_t dst, uint16_t immediate)
+      : opcode(opcode), src(src), dst(dst), immediate(immediate) {}
+
   void operator()();
     };
 }
