@@ -5,8 +5,13 @@
 
 namespace code {
 enum class Opcode : uint8_t { 
-    NOP = 0,
-     MOV = 1
+     MOV = 0
+     };
+     class Register {
+         private:
+          Register() {}
+          public:
+           static const unsigned IP = 0;
      };
 class Instruction {
  public:
@@ -14,6 +19,8 @@ class Instruction {
   uint8_t src : 4;
   uint8_t dst : 4;
   uint16_t immediate;
+
+  void operator()();
     };
 }
 
