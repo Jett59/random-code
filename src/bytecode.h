@@ -6,10 +6,11 @@
 namespace code {
 enum class Opcode : uint8_t { 
      MOV = 0, // Move to register
-     SL = 1, // Shift left
-     SR = 2, // Shift right
+     SL, // Shift left
+     SR, // Shift right
      LDR, // Load from memory
      STR, // Store to memory
+     DOWN, /*Power down*/
      };
      class Register {
          private:

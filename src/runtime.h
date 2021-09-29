@@ -8,6 +8,8 @@
 namespace runtime {
 void machineDump();
 
+void disassemble(code::Instruction& instruction);
+
 void exec(std::vector<code::Instruction> instructions);
 }
 
