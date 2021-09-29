@@ -2,6 +2,8 @@
 #include "runtime.h"
 #include <iostream>
 
+#define MEMORY_SIZE  1048576
+
 using code::Instruction;
 using code::Register;
 using std::cout;
@@ -9,6 +11,7 @@ using std::endl;
 using std::vector;
 
 static uint64_t registers[32] = {0};
+static uint8_t memory[MEMORY_SIZE] = {0};
 
 template<int n, class t> t notEqualOrElse (t prefered, t fallback) {
   return prefered == n ? fallback : prefered;
@@ -21,8 +24,11 @@ void machineDump() {
 }
  }
  void exec(vector<Instruction> instructions) {
-   while (registers[Register::IP] / sizeof(Instruction) < instructions.size()) {
-     instructions[registers[Register::IP] / 4]();
+   for (int i = 0; i < instructions.size(); i ++) {
+     *((Instruction*)memory + i) = instructions[i];
+   }
+   while (registers[Register::IP] < MEMORY_SIZE) {
+     (*(Instruction*)(memory + registers[Register::IP])) ();
      registers[Register::IP] += sizeof(Instruction);
    }
  }

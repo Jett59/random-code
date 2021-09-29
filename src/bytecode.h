@@ -8,6 +8,8 @@ enum class Opcode : uint8_t {
      MOV = 0, // Move to register
      SL = 1, // Shift left
      SR = 2, // Shift right
+     LDR, // Load from memory
+     STR, // Store to memory
      };
      class Register {
          private:
