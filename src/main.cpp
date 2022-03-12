@@ -2,7 +2,6 @@
 #include <vector>
 
 #include "bytecode.h"
-#include "random.h"
 #include "runtime.h"
 
 using std::cout;
@@ -15,7 +14,6 @@ using code::Opcode;
 using runtime::exec;
 
 int main() {
-  Random::init();
   cout << "Using instruction length: " << sizeof(Instruction) * 8 << endl;
   vector<Instruction> instructions;
   instructions.push_back(Instruction(Opcode::MOV, 0, 1, 1));
